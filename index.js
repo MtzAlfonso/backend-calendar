@@ -1,10 +1,14 @@
 const express = require('express');
+const { dbConnection } = require('./database/config');
 require('dotenv').config();
 
 const apiVersion = '/api/v1/';
 
 // Se crea el servidor
 const app = express();
+
+// Base de datos
+dbConnection();
 
 // Parseo del body
 app.use(express.json());
@@ -13,11 +17,9 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
 // Rutas
-// TODO: AUTH crear, login, renew
 app.use(apiVersion + 'auth', require('./routes/auth'));
-// TODO: CRUD eventos
 
 // Escuchando peticiones
 app.listen(process.env.PORT, () =>
-  console.log(`Servidor corriendo en puerto ${process.env.PORT}`)
+  console.log(`Listen on port ${process.env.PORT}`)
 );
