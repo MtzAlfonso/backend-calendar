@@ -1,6 +1,8 @@
 const express = require('express');
 require('dotenv').config();
 
+const apiVersion = '/api/v1/';
+
 // Se crea el servidor
 const app = express();
 
@@ -8,11 +10,9 @@ const app = express();
 app.use(express.static(__dirname + '/public'));
 
 // Rutas
-/* app.get('/', (req, res) => {
-  res.json({
-    ok: true,
-  });
-}); */
+// TODO: AUTH crear, login, renew
+app.use(apiVersion + 'auth', require('./routes/auth'));
+// TODO: CRUD eventos
 
 // Escuchando peticiones
 app.listen(process.env.PORT, () =>
