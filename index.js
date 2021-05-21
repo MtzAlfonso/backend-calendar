@@ -6,6 +6,9 @@ const apiVersion = '/api/v1/';
 // Se crea el servidor
 const app = express();
 
+// Parseo del body
+app.use(express.json());
+
 // Directorio publico
 app.use(express.static(__dirname + '/public'));
 
