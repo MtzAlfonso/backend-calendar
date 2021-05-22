@@ -1,4 +1,4 @@
-const { Router, request } = require('express');
+const { Router } = require('express');
 const { jwtValidate } = require('../middlewares/jwtValidate');
 const { check } = require('express-validator');
 const {
