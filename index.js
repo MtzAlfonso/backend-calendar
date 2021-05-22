@@ -22,6 +22,7 @@ app.use(express.static(__dirname + '/public'));
 
 // Rutas
 app.use(apiVersion + 'auth', require('./routes/auth'));
+app.use(apiVersion + 'events', require('./routes/events'));
 
 // Escuchando peticiones
 app.listen(process.env.PORT, () =>
