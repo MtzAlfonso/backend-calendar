@@ -25,6 +25,6 @@ app.use(apiVersion + 'auth', require('./routes/auth'));
 app.use(apiVersion + 'events', require('./routes/events'));
 
 // Escuchando peticiones
-app.listen(process.env.PORT, () =>
-  console.log(`Listen on port ${process.env.PORT}`)
+app.listen(process.env.PORT || 4000, () =>
+  console.log(`Listen on port ${process.env.PORT || 4000}`)
 );
