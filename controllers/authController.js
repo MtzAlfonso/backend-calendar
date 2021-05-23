@@ -7,9 +7,9 @@ const createUser = async (req, res = response) => {
   const { email, password } = req.body;
 
   try {
-    const temp_user = await User.findOne({ email });
+    const tempUser = await User.findOne({ email });
 
-    if (temp_user) {
+    if (tempUser) {
       return res.status(400).json({
         ok: false,
         msg: 'Ya existe un usuario registrado con ese correo',
