@@ -26,7 +26,7 @@ const createEvent = async (req, res = response) => {
 const getEvents = async (req, res = response) => {
   const events = await Event.find().populate('user', 'name');
 
-  res.status(200).json({
+  return res.status(200).json({
     ok: true,
     events,
   });
@@ -35,15 +35,15 @@ const getEvents = async (req, res = response) => {
 // UPDATE
 const updateEvent = async (req = request, res = response) => {
   const eventId = req.params.id;
+  const { uid } = req;
 
   try {
     const event = await Event.findById(eventId);
-    const { uid } = req;
 
     if (!event) {
-      res.status(404).json({
+      return res.status(404).json({
         ok: false,
-        msg: 'Event not found',
+        msg: 'El evento no existe',
       });
     }
 
@@ -63,13 +63,13 @@ const updateEvent = async (req = request, res = response) => {
       new: true,
     });
 
-    res.status(200).json({
+    return res.status(200).json({
       ok: true,
       evento: updateEvent,
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       ok: false,
       msg: 'Hable con el administrador',
     });
@@ -77,11 +77,39 @@ const updateEvent = async (req = request, res = response) => {
 };
 
 // DELETE
-const deleteEvent = (req, res = response) => {
-  res.status(200).json({
-    ok: true,
-    msg: 'deleteEvent',
-  });
+const deleteEvent = async (req, res = response) => {
+  const eventId = req.params.id;
+  const { uid } = req;
+
+  try {
+    const event = await Event.findById(eventId);
+
+    if (!event) {
+      return res.status(404).json({
+        ok: false,
+        msg: 'El evento no existe',
+      });
+    }
+
+    if (event.user.toString() !== uid) {
+      return res.status(401).json({
+        ok: false,
+        msg: 'No tiene privilegios para eliminar este evento',
+      });
+    }
+
+    await Event.findByIdAndDelete(eventId);
+
+    return res.status(200).json({
+      ok: true,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: 'Hable con el administrador',
+    });
+  }
 };
 
 module.exports = { createEvent, getEvents, updateEvent, deleteEvent };
