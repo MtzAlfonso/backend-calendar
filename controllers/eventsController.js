@@ -27,7 +27,6 @@ const getEvents = async (req, res = response) => {
   const events = await Event.find()
     .where({ user: { _id: req.uid } })
     .populate('user', 'name');
-  console.log(req);
 
   return res.status(200).json({
     ok: true,
